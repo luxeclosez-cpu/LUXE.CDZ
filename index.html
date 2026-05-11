@@ -21,11 +21,38 @@ font-size:24px;
 color:#9CAF88;
 text-shadow:0 0 10px #9CAF88;
 }
+
+/* الشريط العلوي */
+.top-bar{
+text-align:center;
+padding:12px;
+font-size:16px;
+font-weight:bold;
+color:black;
+background:#9CAF88;
+letter-spacing:1px;
+position:sticky;
+top:0;
+z-index:999;
+animation:slideGlow 2s infinite alternate;
+}
+
+@keyframes slideGlow{
+from{
+box-shadow:0 0 10px #9CAF88;
+}
+to{
+box-shadow:0 0 25px #9CAF88;
+}
+}
+
 .container{
 display:grid;
 grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
 gap:15px;
+padding:15px;
 }
+
 .card{
 background:#111;
 border-radius:20px;
@@ -38,22 +65,12 @@ flex-direction:column;
 justify-content:space-between;
 }
 
-
-.card:nth-child(1){animation-delay:0.2s;}
-.card:nth-child(2){animation-delay:0.4s;}
-.card:nth-child(3){animation-delay:0.6s;}
-.card:nth-child(4){animation-delay:0.8s;}
-
-@keyframes fadeUp{
-to{opacity:1; transform:translateY(0);}
-}
 .img-box{
 width:100%;
-aspect-ratio:1/1; /* 👈 يخليها مربعة */
+aspect-ratio:1/1;
 overflow:hidden;
 border-radius:15px;
-                   }
-
+}
 
 .img-box img{
 width:100%;
@@ -86,7 +103,7 @@ margin-top:10px;
 .sizes button{
 width:45px;
 height:45px;
-border-radius:50%; /* 👈 دائرية */
+border-radius:50%;
 border:1px solid #555;
 background:#0a0a0a;
 color:white;
@@ -94,13 +111,6 @@ font-weight:bold;
 cursor:pointer;
 transition:0.3s;
 }
-
-.sizes button.active{
-background:#9CAF88;
-color:black;
-box-shadow:0 0 15px #9CAF88;
-transform:scale(1.1);
-  }
 
 .sizes button.active{
 background:#9CAF88;
@@ -118,6 +128,7 @@ background:#9CAF88;
 color:black;
 font-weight:bold;
 margin-top:10px;
+cursor:pointer;
 animation:pulse 2s infinite;
 }
 
@@ -126,44 +137,26 @@ animation:pulse 2s infinite;
 50%{box-shadow:0 0 25px #9CAF88;}
 100%{box-shadow:0 0 10px #9CAF88;}
 }
-  .top-bar{
-text-align:center;
-padding:10px;
-font-size:16px;
-font-weight:bold;
-color:#9CAF88;
-background:#111;
-letter-spacing:1px;
-box-shadow:0 0 15px #9CAF88;
-animation:glowText 1.5s infinite alternate;
-}
 
-@keyframes glowText{
-from{
-text-shadow:0 0 5px #9CAF88, 0 0 10px #9CAF88;
-}
-to{
-text-shadow:0 0 20px #9CAF88, 0 0 40px #9CAF88;
-}
-  @media(max-width:600px){
+@media(max-width:600px){
 .container{
 grid-template-columns:1fr;
 }
 }
-  }
- 
 </style>
 
 </head>
 
 <body>
+
+<!-- الشريط العلوي -->
 <div class="top-bar">
-🚚 Delivery available 58 wilaya 🌟
-</div>  
+🚚 توصيل مجاني إلى 58 ولاية لفترة محدودة 🔥
+</div>
+
 <header>LUXE.CLOSET.DZ</header>
 
 <div class="container">
-  
 
 <!-- المنتج 1 -->
 <div class="card">
@@ -172,8 +165,8 @@ grid-template-columns:1fr;
 </div>
 
 <h3>T-shirt</h3>
-<span class="old">2500 DA</span>
-<div class="price">1800 DA</div>
+<span class="old">2800 DA</span>
+<div class="price">2500 DA</div>
 
 <div id="sizes-1" class="sizes">
 <button onclick="selectSize(this,'S',1)">S</button>
@@ -184,7 +177,7 @@ grid-template-columns:1fr;
 <button id="orderBtn-1"
 data-name="T-shirt"
 data-img="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt1.jpg"
-data-price="1800 DA"
+data-price="2500 DA"
 onclick="goOrder(this,1)">
 🛒 اطلب الآن
 </button>
@@ -197,8 +190,8 @@ onclick="goOrder(this,1)">
 </div>
 
 <h3>T-shirt</h3>
-<span class="old">2200 DA</span>
-<div class="price">1800 DA</div>
+<span class="old">2800 DA</span>
+<div class="price">2500 DA</div>
 
 <div id="sizes-2" class="sizes">
 <button onclick="selectSize(this,'S',2)">S</button>
@@ -209,7 +202,7 @@ onclick="goOrder(this,1)">
 <button id="orderBtn-2"
 data-name="T-shirt"
 data-img="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt2.jpg"
-data-price="1800 DA"
+data-price="2500 DA"
 onclick="goOrder(this,2)">
 🛒 اطلب الآن
 </button>
@@ -222,8 +215,8 @@ onclick="goOrder(this,2)">
 </div>
 
 <h3>T-shirt</h3>
-<span class="old">2400 DA</span>
-<div class="price">1900 DA</div>
+<span class="old">2800 DA</span>
+<div class="price">2500 DA</div>
 
 <div id="sizes-3" class="sizes">
 <button onclick="selectSize(this,'S',3)">S</button>
@@ -234,7 +227,7 @@ onclick="goOrder(this,2)">
 <button id="orderBtn-3"
 data-name="T-shirt"
 data-img="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt3.jpg"
-data-price="1900 DA"
+data-price="2500 DA"
 onclick="goOrder(this,3)">
 🛒 اطلب الآن
 </button>
@@ -247,8 +240,8 @@ onclick="goOrder(this,3)">
 </div>
 
 <h3>T-shirt</h3>
-<span class="old">2300 DA</span>
-<div class="price">1800 DA</div>
+<span class="old">2800 DA</span>
+<div class="price">2500 DA</div>
 
 <div id="sizes-4" class="sizes">
 <button onclick="selectSize(this,'S',4)">S</button>
@@ -259,34 +252,36 @@ onclick="goOrder(this,3)">
 <button id="orderBtn-4"
 data-name="T-shirt"
 data-img="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt4.jpg"
-data-price="1800 DA"
+data-price="2500 DA"
 onclick="goOrder(this,4)">
 🛒 اطلب الآن
 </button>
 </div>
-  <div class="card">
+
+<!-- المنتج 5 -->
+<div class="card">
 <div class="img-box">
 <img src="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt5.jpg">
 </div>
 
 <h3>T-shirt سبايدر</h3>
-<span class="old">2200 DA</span>
-<div class="price">1800 DA</div>
+<span class="old">2800 DA</span>
+<div class="price">2500 DA</div>
 
-<div id="sizes-4" class="sizes">
-<button onclick="selectSize(this,'S',4)">S</button>
-<button onclick="selectSize(this,'M',4)">M</button>
-<button onclick="selectSize(this,'L',4)">L</button>
+<div id="sizes-5" class="sizes">
+<button onclick="selectSize(this,'S',5)">S</button>
+<button onclick="selectSize(this,'M',5)">M</button>
+<button onclick="selectSize(this,'L',5)">L</button>
 </div>
 
-<button id="orderBtn-4"
-data-name="T-shirt"
+<button id="orderBtn-5"
+data-name="T-shirt سبايدر"
 data-img="https://luxeclosetdz.github.io/LUXE.CDZ/images/tshirt5.jpg"
-data-price="1800 DA"
-onclick="goOrder(this,4)">
+data-price="2500 DA"
+onclick="goOrder(this,5)">
 🛒 اطلب الآن
 </button>
-  </div>
+</div>
 
 </div>
 
