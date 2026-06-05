@@ -3,113 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>إتمام الطلب</title>
 
 <style>
-body{
-font-family:Arial;
-background:#0a0a0a;
-color:white;
-padding:20px;
-opacity:0;
-animation:fadeIn 0.6s forwards;
+body{font-family:Arial;background:#0a0a0a;color:white;padding:20px;}
+.card{background:#111;padding:20px;border-radius:20px;box-shadow:0 0 20px #9CAF88;}
+img{width:100%;height:180px;object-fit:contain;border-radius:10px;}
+
+input,select{
+width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none;
 }
 
-@keyframes fadeIn{
-to{opacity:1;}
-}
-
-.card{
-background:#111;
-padding:20px;
-border-radius:20px;
-box-shadow:0 0 20px #9CAF88;
-transform:translateY(40px);
-opacity:0;
-animation:cardUp 0.6s forwards;
-animation-delay:0.3s;
-}
-
-@keyframes cardUp{
-to{
-transform:translateY(0);
-opacity:1;
-}
-}
-
-#productImg{
-width:100%;
-height:180px;
-object-fit:contain;
-border-radius:10px;
-margin-bottom:10px;
-animation:zoomIn 0.5s;
-}
-
-@keyframes zoomIn{
-from{transform:scale(0.8);}
-to{transform:scale(1);}
-}
-
-input, select{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
-border:none;
-opacity:0;
-transform:translateX(-20px);
-animation:slideIn 0.5s forwards;
-}
-
-input:nth-child(4){animation-delay:0.4s;}
-input:nth-child(5){animation-delay:0.5s;}
-input:nth-child(6){animation-delay:0.6s;}
-select{animation-delay:0.7s;}
-
-@keyframes slideIn{
-to{
-opacity:1;
-transform:translateX(0);
-}
-}
-
-input:focus, select:focus{
-outline:none;
-box-shadow:0 0 10px #9CAF88;
-}
+.info{color:#9CAF88;margin:5px 0;}
 
 button{
-background:#9CAF88;
-color:black;
-padding:15px;
-border:none;
-width:100%;
-border-radius:12px;
-font-weight:bold;
-margin-top:10px;
-transition:0.3s;
-animation:pulse 2s infinite;
-}
-
-button:hover{
-transform:scale(1.05);
-box-shadow:0 0 25px #9CAF88;
-}
-
-@keyframes pulse{
-0%{box-shadow:0 0 10px #9CAF88;}
-50%{box-shadow:0 0 25px #9CAF88;}
-100%{box-shadow:0 0 10px #9CAF88;}
-}
-
-.info{
-margin:5px 0;
-color:#9CAF88;
+background:#9CAF88;color:black;padding:15px;border:none;width:100%;
+border-radius:12px;font-weight:bold;
 }
 </style>
-
 </head>
 
 <body>
@@ -117,65 +28,151 @@ color:#9CAF88;
 <div class="card">
 
 <img id="productImg">
-
 <h2 id="productName"></h2>
-<p id="productPrice" class="info"></p>
-<p id="productSize" class="info"></p>
+<p id="productPrice"></p>
+<p id="productSize"></p>
 
-<input id="name" placeholder="الاسم و اللقب">
+<input id="name" placeholder="الاسم واللقب">
 <input id="phone" placeholder="رقم الهاتف">
-<input id="state" placeholder="الولاية">
 
-<select id="delivery">
-<option>توصيل للمنزل</option>
-<option>توصيل للمكتب</option>
+<select id="state" onchange="updatePrice()"></select>
+
+<select id="delivery" onchange="updatePrice()">
+<option value="home">توصيل للمنزل</option>
+<option value="office">توصيل للمكتب</option>
 </select>
 
-<button onclick="send()">🛒 تأكيد الطلب عبر واتساب</button>
+<div class="info">🚚 التوصيل: <span id="shipping">0</span> DA</div>
+<div class="info">💰 المجموع: <span id="total">0</span> DA</div>
+
+<button onclick="send()">تأكيد الطلب واتساب</button>
 
 </div>
 
 <script>
-// جلب البيانات من الرابط
 const params = new URLSearchParams(window.location.search);
-
 const nameP = params.get("name") || "منتج";
-const img = params.get("img") ? decodeURIComponent(params.get("img")) : "";
-const price = params.get("price") || "";
+const img = params.get("img") || "";
 const size = params.get("size") || "";
 
-// عرض البيانات في الصفحة
 document.getElementById("productImg").src = img;
 document.getElementById("productName").innerText = nameP;
-document.getElementById("productPrice").innerText = "💰 " + price;
-document.getElementById("productSize").innerText = "📏 المقاس: " + size;
+document.getElementById("productPrice").innerText = "1700 DA";
+document.getElementById("productSize").innerText = "المقاس: " + size;
 
-// إرسال الطلب
-function send(){
+const productPrice = 1700;
 
-let userName = document.getElementById("name").value;
-let phone = document.getElementById("phone").value;
-let state = document.getElementById("state").value;
-let delivery = document.getElementById("delivery").value;
+const shippingData = {
+"ورقلة":[590,450],
+"توقورت":[700,550],
+"الأغواط":[900,650],
+"بجاية":[900,650],
+"البليدة":[900,650],
+"البويرة":[900,650],
+"تيزي وزو":[900,650],
+"الجزائر":[900,650],
+"الجلفة":[900,650],
+"سطيف":[900,650],
+"سكيكدة":[900,650],
+"عنابة":[900,650],
+"قسنطينة":[900,650],
+"المدية":[900,650],
+"المسيلة":[900,650],
+"برج بوعريريج":[900,650],
+"بومرداس":[900,650],
+"الطارف":[900,650],
+"الوادي":[900,650],
+"تيبازة":[900,650],
+"غرداية":[900,650],
+"المغير":[900,650],
+"المنيعة":[900,650],
 
-let msg = `طلب جديد 🔥
+"أدرار":[950,750],
+"الشلف":[950,750],
+"أم البواقي":[950,750],
+"باتنة":[950,750],
+"بسكرة":[950,750],
+"بشار":[950,750],
+"تبسة":[950,750],
+"تلمسان":[950,750],
+"تيارت":[950,750],
+"جيجل":[950,750],
+"سعيدة":[950,750],
+"سيدي بلعباس":[950,750],
+"قالمة":[950,750],
+"مستغانم":[950,750],
+"معسكر":[950,750],
+"وهران":[950,750],
+"تيسمسيلت":[950,750],
+"خنشلة":[950,750],
+"سوق أهراس":[950,750],
+"ميلة":[950,750],
+"عين الدفلى":[950,750],
+"عين تموشنت":[950,750],
+"غليزان":[950,750],
+"تيميمون":[950,750],
+"برج باجي مختار":[950,750],
+"أولاد جلال":[950,750],
+"بني عباس":[950,750],
 
-🛍 المنتج: ${nameP}
-💰 السعر: ${price}
-📏 المقاس: ${size}
+"إيليزي":[1600,1400],
+"تمنراست":[1600,1400],
+"تندوف":[1600,1400],
+"عين صالح":[1600,1400],
+"إن قزام":[1600,1400],
+"دجانيت":[1600,1400],
 
-👤 الاسم: ${userName}
-📞 الهاتف: ${phone}
-📍 الولاية: ${state}
-🚚 التوصيل: ${delivery}
+"البيض":[1050,850],
+"نعامة":[1050,850]
+};
 
-📸 صورة المنتج:
-${img}`;
-
-let link = "https://wa.me/213668086810?text=" + encodeURIComponent(msg);
-
-window.open(link);
+function fillStates(){
+const sel=document.getElementById("state");
+for(let k in shippingData){
+let opt=document.createElement("option");
+opt.value=k;
+opt.textContent=k;
+sel.appendChild(opt);
 }
+}
+
+function updatePrice(){
+let state=document.getElementById("state").value;
+let type=document.getElementById("delivery").value;
+
+if(!shippingData[state]) return;
+
+let ship = (type==="home") ? shippingData[state][0] : shippingData[state][1];
+
+document.getElementById("shipping").innerText=ship;
+document.getElementById("total").innerText=productPrice+ship;
+}
+
+function send(){
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let state=document.getElementById("state").value;
+let type=document.getElementById("delivery").value;
+
+let ship=(type==="home")?shippingData[state][0]:shippingData[state][1];
+let total=productPrice+ship;
+
+let msg=`طلب جديد 🔥
+المنتج: ${nameP}
+المقاس: ${size}
+الاسم: ${name}
+الهاتف: ${phone}
+الولاية: ${state}
+نوع التوصيل: ${type}
+سعر التوصيل: ${ship} DA
+المجموع: ${total} DA
+`;
+
+window.open("https://wa.me/213668086810?text="+encodeURIComponent(msg));
+}
+
+fillStates();
+updatePrice();
 </script>
 
 </body>
